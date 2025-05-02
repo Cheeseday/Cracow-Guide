@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <section class="profile">
+        <h3>
+            User profile
+        </h3>
+        <div class="profile_line container-xl">
+            <div class="row">
+                <div class="col-sm-6 col">
+                    <p>E-mail:</p>
+                    <span>example@g.com</span>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn">
+                        Change e-mail
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="profile_line container-xl">
+            <div class="row">
+                <div class="col-sm-6 col">
+                    <p>Username:</p>
+                    <span>example</span>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn">
+                        Change username
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="profile_line container-lg">
+            <div class="row">
+                <div class="col-sm-6 col">
+                    <div>
+                        <p>Password:</p>
+                        <span>example</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn">Change password</button>
+                </div>
+            </div>
+        </div>
+        <div class="profile_line container-md">
+            <div class="row">
+                <div class="col-sm-6 col">
+                    <span>Log out from profile</span>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn">Log out</button>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

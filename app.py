@@ -1,0 +1,227 @@
+import os
+import re
+import sqlite3
+import sys
+
+from datetime import datetime, timezone
+from flask_session import Session
+from flask import Flask, flash, redirect, render_template, request, session, g
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from helpers import apology, login_required, is_valid_email, is_valid_username, crop_to_aspect
+
+app = Flask(__name__)
+
+# Configure session to use filesystem (instead of signed cookies)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
+DATABASE = './guide.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+
+def make_dicts(cursor, row):
+    return dict((cursor.description[idx][0], value)
+                for idx, value in enumerate(row))
+
+# db.row_factory = make_dicts
+
+
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+# for user in query_db('select * from users'):
+#     print(user['username'], 'has the id', user['user_id'])
+
+@app.after_request
+def after_request(response):
+    """Ensure responses aren't cached"""
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
+
+@app.route("/")
+def index():
+    # It's working!
+    print(sys.executable)
+    cur = get_db().cursor()
+    # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
+    #             ("Pomnik Adama Mickiewicza", 
+    #              "Stare Miasto, Rynek Główny", 
+    #              4.7, 
+    #              "Miejsce historyczne", 
+    #              "./static/mickievicz.jpg")
+    # )
+    # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
+    #             ("Kościół sw. Jozefa", 
+    #              "Stare Podgórze, Rynek Podgórski", 
+    #              4.9, 
+    #              "Miejsce historyczne", 
+    #              "./static/Jozefa54.jpg")
+    # )
+    # cur.execute("UPDATE sights SET photos = ? WHERE sight_id = 2", ('./static/brama_florianska.jpg',))
+    sights = cur.execute("SELECT * FROM sights").fetchall()
+    # Пример использования
+    # output = "./static/sights/"
+    # get_db().commit() # Remember to commit the transaction after executing INSERT.
+    get_db().close()
+    print(sights[0][0])
+    print(sights[0][5])
+    for sight in sights:
+        if sight[0] != 1:
+            output = "./static/sights/" + str(sight[0]) + ".jpg"
+
+            crop_to_aspect(sight[5], output, 5/4)
+        
+    return render_template("index.html", sights=sights)
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    """Log user in"""
+
+    # Forget any user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return apology("must provide username", 400)
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password", 400)
+
+        # Query database for username
+        rows = query_db("SELECT * FROM users WHERE username = ?", (request.form.get("username"),))
+        # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(
+            rows[0][3], request.form.get("password")
+        ):
+            return apology("invalid username and/or password", 400)
+
+        # Remember which user has logged in
+        session["user_id"] = rows[0][0]
+        # Redirect user to home page
+        return redirect("/")
+    
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
+
+
+@app.route("/profile")
+def profile():
+    """Show user profile"""
+
+    # Redirect user to login form
+    return render_template("profile.html")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{}|;:'\",.<>?/])[A-Za-z\d!@#$%^&*()_\-+=\[\]{}|;:'\",.<>?/]{8,}$"
+        # Ensure email was correct
+        if not is_valid_email(request.form.get("email")):
+            return apology("email was invalid", 400)
+        # Ensure username was correct
+        if not request.form.get("username"):
+            return apology("must provide username", 400)
+        elif not is_valid_username(request.form.get("username")):
+            return apology("username must contain only latin letters, numbers, or '_' and be at least 4 symbols", 400)
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password", 400)
+        elif not re.match(pattern, request.form.get("password"), re.VERBOSE):
+            # Check if password contains at least one uppercase letter, one lowercase letter, one digit, and one special character
+            return apology("password must be contain at least one uppercase letter, one lowercase letter, one digit, and one special character", 403)
+        # Ensure confirmation was submitted
+        elif not request.form.get("confirmation"):
+            return apology("must repeat password", 400)
+        # Ensure password and confirmation match
+        if request.form.get("password") != request.form.get("confirmation"):
+            return apology("passwords must match", 400)
+
+        # Ensure username is unique
+        rows = query_db("SELECT username FROM users WHERE username = ?", (request.form.get("username"),))
+        if len(rows) != 0:
+            return apology("username already taken", 400)
+        # Ensure email is unique
+        emails = query_db("SELECT email FROM users WHERE email = ?", (request.form.get("email"),))
+        if len(emails) != 0:
+            return apology("email already taken", 400)
+        # Hash the password
+        hash = generate_password_hash(request.form.get("password"))
+
+        # Insert new user into database
+        cur = get_db().cursor()
+        cur.execute("INSERT INTO users (username, email, hash) VALUES (?, ?, ?)",
+            (request.form.get("username"),
+             request.form.get("email"),
+             hash,
+            )
+        )
+        get_db().commit() # Remember to commit the transaction after executing INSERT.
+        get_db().close()
+        return redirect("/")
+    else:
+        return render_template("register.html")
+    
+
+@app.route("/change", methods=["POST"])
+@login_required
+def change():
+    """Change password"""
+
+    pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{}|;:'\",.<>?/])[A-Za-z\d!@#$%^&*()_\-+=\[\]{}|;:'\",.<>?/]{8,}$"
+    # Ensure password was submitted
+    if not request.form.get("password"):
+        return apology("must provide new password", 400)
+    # Check if password contains at least one uppercase letter, one lowercase letter, one digit, and one special character
+    elif not re.match(pattern, request.form.get("password"), re.VERBOSE):
+        return apology("password must be contain at least 8 symbols and among them: one uppercase letter, one lowercase letter, one digit, and one special character", 403)
+    # Ensure confirmation was submitted
+    elif not request.form.get("confirmation"):
+        return apology("must repeat password", 400)
+    # Ensure password and confirmation match
+    elif request.form.get("password") != request.form.get("confirmation"):
+        return apology("passwords must match", 400)
+
+    # Hash the password
+    hash = generate_password_hash(request.form.get("password"))
+
+    # Update password in db
+    db.execute(
+        "UPDATE users SET hash = ? WHERE id = ?",
+        hash,
+        session["user_id"],
+    )
+    return redirect("/")

@@ -1,0 +1,196 @@
+/* @font-face {
+    font-family: "CinaGEO";
+    src: url("./fonts/CinaGEOTest-Light-BF64015899c5366.otf") format("opentype");
+} */
+body {
+  font-family: "Montserrat";
+  padding: 0 1.5dvw;
+  background-color: #FFFFFF;
+  color: #1A1E18;
+}
+
+.btn {
+  background-color: #E48F35;
+  border-color: #E48F35;
+  color: #FFFFFF;
+}
+
+.btn:hover {
+  color: #FFFFFF;
+  background-color: #CD6A00;
+  border-color: #CD6A00;
+}
+
+.form-control:focus {
+  border-color: #E48F35;
+  box-shadow: 0 0 0 0.25rem rgba(228, 143, 53, 0.25);
+}
+
+h3 {
+  text-align: start;
+}
+
+#navbar-brand {
+  background-color: #FFFFFF;
+}
+
+#index {
+  width: 96dvw;
+  height: 85dvh;
+  border-radius: 12px;
+  background-color: #E48F35;
+  background-image: url(./Main_4.jpg);
+  /* background-size: contain;
+  background-repeat: no-repeat; */
+  background-size: cover;
+  /* insert vertical image for mobile version */
+}
+
+#navbar {
+  margin-left: 23.5%;
+  color: rgb(52, 43, 43);
+}
+#navbar .nav-link {
+  font-size: 18px;
+  color: #1A1E18;
+}
+#navbar .navbar-brand {
+  font-size: 24px;
+}
+#navbar a.nav-link:hover {
+  color: #E48F35;
+}
+
+.categories a {
+  text-decoration: none;
+  font-size: 19px;
+  color: #1A1E18;
+}
+
+a.category-link:hover {
+  color: #E48F35;
+}
+
+.card {
+  height: 380px;
+  border-radius: 16px;
+  font-family: "Montserrat";
+  border: none;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.card p {
+  margin: 0 0 0 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #323432;
+  position: relative;
+}
+
+.card_image {
+  max-width: 88dvw;
+  width: 360px;
+  height: 288px;
+  background-color: inherit;
+  background-image: url(./Jozefa5_4.jpg);
+  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+}
+
+@media (max-width: 420px) {
+  .card {
+    height: 100%;
+  }
+  .card p.description {
+    margin-bottom: 7px;
+  }
+  .card .card_image {
+    height: 70dvw;
+  }
+}
+.card_name {
+  font-size: 25px;
+  text-align: left;
+  font-family: "Montserrat";
+  font-weight: 300;
+}
+
+.favourite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  border-radius: 16px;
+  font-family: inherit;
+  color: #F4F4F4;
+  background-color: rgba(90, 89, 89, 0.35);
+}
+.favourite .fa-solid.fa-star {
+  color: #F4F4F4;
+}
+.favourite .fa-solid.fa-star.favourited {
+  color: #fff700;
+}
+
+#login {
+  border: none;
+  background-color: #fff;
+}
+
+.close-button {
+  background-color: #1a1e18;
+  color: #f4f4f4;
+}
+
+#register_form {
+  width: 440px;
+  max-width: 90%;
+  text-align: start;
+  border-radius: 16px;
+}
+#register_form a {
+  color: #E48F35;
+}
+#register_form a:hover {
+  color: #CD6A00;
+  transition: color 0.25s ease-in-out;
+}
+
+#passwordHelpBlock {
+  font-size: 11px;
+}
+
+.profile {
+  min-width: 300px;
+  width: 70dvw;
+  margin: auto;
+}
+.profile .profile_line {
+  border-bottom: #323432;
+  border-bottom: 1px solid rgba(21, 21, 20, 0.6);
+  padding: 22px 0;
+}
+.profile .profile_line .row {
+  align-items: center;
+}
+.profile .profile_line p {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+.profile .profile_line .col {
+  text-align: start;
+  padding-left: 10%;
+}
+.profile .profile_line span {
+  font-size: 14px;
+}
+.profile .profile_line .btn {
+  width: 220px;
+  height: 46px;
+  border-radius: 12px;
+}
+
+.navbar-toggler {
+  border: none;
+}/*# sourceMappingURL=styles.css.map */

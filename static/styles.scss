@@ -1,0 +1,233 @@
+/* @font-face {
+    font-family: "CinaGEO";
+    src: url("./fonts/CinaGEOTest-Light-BF64015899c5366.otf") format("opentype");
+} */
+
+$base-color: #FFFFFF;
+$text-color: #1A1E18;
+$bg-color: #F4F4F4;
+$button-color: #E48F35;
+$hover-color: #E48F35;
+$btn-hover-color: #CD6A00;
+$star-color: #fff700;
+
+body {
+    font-family: 'Montserrat';
+    padding: 0 1.5dvw;
+    background-color: $base-color;
+    color: $text-color;
+}
+
+.btn {
+    background-color: $button-color;
+    border-color: $button-color;
+    color: $base-color;
+}
+.btn:hover {
+    color: $base-color;
+    background-color: $btn-hover-color;
+    border-color: $btn-hover-color;
+}
+
+.form-control:focus {
+    border-color: $hover-color;
+    box-shadow: 0 0 0 .25rem rgba($hover-color, .25);
+}
+
+h3 {
+    text-align: start;
+}
+
+#navbar-brand {
+    background-color: $base-color;
+}
+
+#index {
+    width: 96dvw;
+    height: 85dvh;
+    border-radius: 12px;
+    background-color: $button-color;
+    background-image: url(./Main_4.jpg);
+    /* background-size: contain;
+    background-repeat: no-repeat; */
+    background-size: cover;
+    /* insert vertical image for mobile version */
+}
+
+#navbar {
+    // text-align: center;
+    margin-left: 23.5%; 
+    // color: rgb(244, 244, 244);
+    color: rgb(52, 43, 43);
+
+    .nav-link {
+        font-size: 18px;
+        color: $text-color;
+    }
+
+    .navbar-brand {
+        font-size: 24px;    
+    }
+
+    a.nav-link:hover {
+        color: $hover-color;
+    }
+}
+
+
+
+.categories a {
+    text-decoration: none;
+    font-size: 19px;
+    color: $text-color;
+}
+
+a.category-link:hover {
+    color: $hover-color;
+}
+
+.card {
+    height: 380px;
+    border-radius: 16px;
+    font-family: 'Montserrat';
+    border: none;
+    background-color: rgba(0, 0, 0, 0.04);
+
+    p {
+        margin: 0 0 0 10px;
+        text-align: left;
+        font-size: 14px;
+        color: #323432;
+        position: relative;
+    }
+}
+    
+
+.card_image {
+    max-width: 88dvw;
+    width: 360px;
+    height: 288px;
+    background-color: inherit;
+    background-image: url(./Jozefa5_4.jpg);
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+}
+
+@media (max-width: 420px) {
+    .card {
+        height: 100%;
+
+        p.description {
+            margin-bottom: 7px;
+        }
+
+        .card_image {
+            height: 70dvw;
+        }
+    }
+  }
+
+.card_name {
+    font-size: 25px;
+    text-align: left;
+    font-family: 'Montserrat';
+    font-weight: 300;
+}
+
+
+// Favourites badge styles
+
+.favourite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    border-radius: 16px;
+    font-family: inherit;
+    color: $bg-color;
+    background-color: rgba(90, 89, 89, 0.35);
+    
+    .fa-solid.fa-star {
+        color: $bg-color;
+    }
+    
+    .fa-solid.fa-star.favourited {
+        color: $star-color;   
+    }
+}
+
+
+//Log in and registration 
+#login {
+    border: none;
+    background-color: #fff;
+}
+
+.close-button {
+    background-color: #1a1e18;
+    color: #f4f4f4;
+}
+
+#register_form {
+    width: 440px;
+    max-width: 90%;
+    text-align: start;
+    border-radius: 16px;
+
+    a {
+        color: $button-color;
+    }
+
+    a:hover {
+        color: $btn-hover-color;
+        transition: color .25s ease-in-out;
+    }
+}
+
+#passwordHelpBlock {
+    font-size: 11px;
+}
+
+.profile {
+    min-width: 300px;
+    width: 70dvw;
+    margin: auto;
+
+    .profile_line {
+        // padding-bottom: 20px;
+        border-bottom: #323432;
+        border-bottom: 1px solid rgba(21, 21, 20, 0.6);
+        padding: 22px 0;
+
+        .row {
+            align-items: center;
+        }
+
+        p {
+            margin-bottom: 0;
+            font-size: 18px;
+            // padding-left: 10%;
+        }
+
+        .col {
+            text-align: start;
+            padding-left: 10%;
+        }
+
+        span {
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 220px;
+            height: 46px;
+            border-radius: 12px;
+        }
+    }
+}
+
+.navbar-toggler {
+    border: none;
+}

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+<div id="index"></div>
+
+<div class="categories p-3">
+    <a href="#" class="category-link px-4"><b>Category</b></a>
+    <a href="#" class="category-link px-4">Historic Sites</a>
+    <a href="#" class="category-link px-4">Muzeums</a>
+    <a href="#" class="category-link px-4">Parks</a>
+    <a href="#" class="category-link px-4">Guides & Tips</a>
+    <a href="#" class="category-link px-4">Food & Drink</a>
+</div>
+<div >
+    <h3>
+        Popular places
+    </h3>
+    <div class="container-xxl">
+        <div class="row row-cols-auto justify-content-center">
+            {% for sight in sights%}
+            <div class="card p-0 m-4">
+            <div class="card_image" style="background-image: url('./static/sights/{{ sight[0] }}.jpg');"></div>
+                <div class="card_name ps-2 pt-2">{{ sight[1] }}</div>
+                <p>{{ sight[4] }}</p>
+                <p class="description">{{ sight[2] }}</p>
+                <button class="favourite">
+                    {{ sight[3] }}
+                    <i class="fa-solid fa-star favourited"></i>
+                </button>
+            </div>
+            {% endfor %}
+            <div class="card p-0 m-4">
+            <div class="card_image"></div>
+                <div class="card_name ps-2">Kościół sw. Jozefa</div>
+                <p>Historic sites</p>
+                <p class="description">Stare Podgórze, Rynek Podgórski</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
