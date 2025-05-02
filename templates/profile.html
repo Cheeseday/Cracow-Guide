@@ -1,24 +1,16 @@
 {% extends "layout.html" %}
 
-{% block title %}
-    Register
-{% endblock %}
-
 {% block main %}
     <section class="profile">
-        <h3>
-            User profile
-        </h3>
+        <h3>User profile</h3>
         <div class="profile_line container-xl">
             <div class="row">
                 <div class="col-sm-6 col">
                     <p>E-mail:</p>
-                    <span>example@g.com</span>
+                    <span>{{ user[2] }}</span>
                 </div>
                 <div class="col-sm-6">
-                    <button class="btn">
-                        Change e-mail
-                    </button>
+                    <button class="btn">Change e-mail</button>
                 </div>
             </div>
         </div>
@@ -26,12 +18,10 @@
             <div class="row">
                 <div class="col-sm-6 col">
                     <p>Username:</p>
-                    <span>example</span>
+                    <span>{{ user[1] }}</span>
                 </div>
                 <div class="col-sm-6">
-                    <button class="btn">
-                        Change username
-                    </button>
+                    <button class="btn">Change username</button>
                 </div>
             </div>
         </div>
@@ -40,7 +30,7 @@
                 <div class="col-sm-6 col">
                     <div>
                         <p>Password:</p>
-                        <span>example</span>
+                        <span>.............</span>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -51,11 +41,41 @@
         <div class="profile_line container-md">
             <div class="row">
                 <div class="col-sm-6 col">
-                    <span>Log out from profile</span>
+                    <p>Log out from profile</p>
                 </div>
                 <div class="col-sm-6">
-                    <button class="btn">Log out</button>
+                    <form action="/logout" method="get">
+                        <button class="btn" type="submit" autocomplete="off">Log out</button>
+                    </form>
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-5">
+        <h3 class="profile-favourites">
+            Favourite places
+        </h3>
+        <div class="container-fluid">
+            <div class="row row-cols-auto justify-content-center">
+                {% for sight in sights%}
+                <div class="card p-0 m-4">
+                    <div class="card_image" style="background-image: url('./static/sights/{{ sight[0] }}.jpg');"></div>
+                    <div class="card_name ps-2 pt-2">{{ sight[1] }}</div>
+                    <p>{{ sight[4] }}</p>
+                    <p class="description">{{ sight[2] }}</p>
+                    <form action="/favourite" method="post">
+                        <input name="index" value="{{ sight[0] }}" hidden />
+                        <button class="favourite" type="submit" autocomplete="off" >
+                            {{ sight[3] }}
+                            {% if sight[0] in favourites %}
+                            <i class="fa-solid fa-star favourited"></i>
+                            {% else %}
+                            <i class="fa-solid fa-star"></i>
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

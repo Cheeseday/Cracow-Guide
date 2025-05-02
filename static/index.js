@@ -1,14 +1,14 @@
-// const myModal = document.getElementById('myModal')
-// const myInput = document.getElementById('myInput')
+const myModal = document.getElementById('loginModal')
+const myInput = document.getElementById('username')
 
-// myModal.addEventListener('shown.bs.modal', () => {
-//   myInput.focus()
-// })
+myModal.addEventListener('shown.bs.modal', () => {
+  myInput.focus()
+})
 
 const stars = document.querySelectorAll('.favourite');
 
 for (let i = 0; i < stars.length; i++) {
   stars[i].addEventListener("click", (event) => {
-    event.target.classList.toggle("favourited")
+    event.target.classList.remove("favourited")
   });
 }

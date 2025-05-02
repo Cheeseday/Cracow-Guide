@@ -1,8 +1,4 @@
-/* @font-face {
-    font-family: "CinaGEO";
-    src: url("./fonts/CinaGEOTest-Light-BF64015899c5366.otf") format("opentype");
-} */
-
+// Variables
 $base-color: #FFFFFF;
 $text-color: #1A1E18;
 $bg-color: #F4F4F4;
@@ -11,11 +7,16 @@ $hover-color: #E48F35;
 $btn-hover-color: #CD6A00;
 $star-color: #fff700;
 
+
 body {
     font-family: 'Montserrat';
     padding: 0 1.5dvw;
     background-color: $base-color;
     color: $text-color;
+}
+
+h3 {
+    text-align: start;
 }
 
 .btn {
@@ -29,35 +30,36 @@ body {
     border-color: $btn-hover-color;
 }
 
+.close-button {
+    background-color: $text-color;
+    color: $bg-color;
+}
+
 .form-control:focus {
     border-color: $hover-color;
-    box-shadow: 0 0 0 .25rem rgba($hover-color, .25);
+    box-shadow: 0 0 0 0.25rem rgba($hover-color, 0.25);
 }
 
-h3 {
-    text-align: start;
-}
-
-#navbar-brand {
-    background-color: $base-color;
-}
-
-#index {
+#screensaver {
     width: 96dvw;
     height: 85dvh;
     border-radius: 12px;
     background-color: $button-color;
     background-image: url(./Main_4.jpg);
-    /* background-size: contain;
-    background-repeat: no-repeat; */
     background-size: cover;
-    /* insert vertical image for mobile version */
+    /* TODO: insert vertical image for mobile version */
+}
+
+#navbar-brand {
+    background-color: $base-color;
+
+    .navbar-toggler {
+        border: none;
+    }
 }
 
 #navbar {
-    // text-align: center;
     margin-left: 23.5%; 
-    // color: rgb(244, 244, 244);
     color: rgb(52, 43, 43);
 
     .nav-link {
@@ -74,8 +76,6 @@ h3 {
     }
 }
 
-
-
 .categories a {
     text-decoration: none;
     font-size: 19px;
@@ -86,6 +86,7 @@ a.category-link:hover {
     color: $hover-color;
 }
 
+// Card 
 .card {
     height: 380px;
     border-radius: 16px;
@@ -100,45 +101,28 @@ a.category-link:hover {
         color: #323432;
         position: relative;
     }
-}
-    
 
-.card_image {
-    max-width: 88dvw;
-    width: 360px;
-    height: 288px;
-    background-color: inherit;
-    background-image: url(./Jozefa5_4.jpg);
-    background-size: cover;
-    background-size: contain;
-    background-repeat: no-repeat;
-    border-radius: 16px;
-}
-
-@media (max-width: 420px) {
-    .card {
-        height: 100%;
-
-        p.description {
-            margin-bottom: 7px;
-        }
-
-        .card_image {
-            height: 70dvw;
-        }
+    .card_image {
+        max-width: 88dvw;
+        width: 360px;
+        height: 288px;
+        background-color: inherit;
+        background-image: url(./Jozefa5_4.jpg);
+        background-size: cover;
+        background-size: contain;
+        background-repeat: no-repeat;
+        border-radius: 16px;
     }
-  }
 
-.card_name {
-    font-size: 25px;
-    text-align: left;
-    font-family: 'Montserrat';
-    font-weight: 300;
+    .card_name {
+        font-size: 25px;
+        text-align: left;
+        font-family: 'Montserrat';
+        font-weight: 300;
+    }
 }
-
 
 // Favourites badge styles
-
 .favourite {
     position: absolute;
     top: 10px;
@@ -162,12 +146,7 @@ a.category-link:hover {
 //Log in and registration 
 #login {
     border: none;
-    background-color: #fff;
-}
-
-.close-button {
-    background-color: #1a1e18;
-    color: #f4f4f4;
+    background-color: $base-color;
 }
 
 #register_form {
@@ -182,7 +161,7 @@ a.category-link:hover {
 
     a:hover {
         color: $btn-hover-color;
-        transition: color .25s ease-in-out;
+        transition: color 0.25s ease-in-out;
     }
 }
 
@@ -190,34 +169,40 @@ a.category-link:hover {
     font-size: 11px;
 }
 
+.profile-favourites {
+    margin-left: 13dvw;
+}
+
 .profile {
     min-width: 300px;
-    width: 70dvw;
     margin: auto;
-
+    
+    h3 {
+        margin-left: 13dvw;
+    }
+    
     .profile_line {
-        // padding-bottom: 20px;
+        width: 70dvw;
         border-bottom: #323432;
         border-bottom: 1px solid rgba(21, 21, 20, 0.6);
         padding: 22px 0;
+        
+        p {
+            margin-bottom: 0;
+            font-size: 18px;
+        }
+
+        span {
+            font-size: 14px;
+        }
 
         .row {
             align-items: center;
         }
 
-        p {
-            margin-bottom: 0;
-            font-size: 18px;
-            // padding-left: 10%;
-        }
-
         .col {
             text-align: start;
             padding-left: 10%;
-        }
-
-        span {
-            font-size: 14px;
         }
 
         .btn {
@@ -228,6 +213,16 @@ a.category-link:hover {
     }
 }
 
-.navbar-toggler {
-    border: none;
+@media (max-width: 420px) {
+    .card {
+        height: 100%;
+
+        p.description {
+            margin-bottom: 7px;
+        }
+
+        .card_image {
+            height: 70dvw;
+        }
+    }
 }

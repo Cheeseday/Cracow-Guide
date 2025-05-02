@@ -1,12 +1,12 @@
-/* @font-face {
-    font-family: "CinaGEO";
-    src: url("./fonts/CinaGEOTest-Light-BF64015899c5366.otf") format("opentype");
-} */
 body {
   font-family: "Montserrat";
   padding: 0 1.5dvw;
   background-color: #FFFFFF;
   color: #1A1E18;
+}
+
+h3 {
+  text-align: start;
 }
 
 .btn {
@@ -21,29 +21,31 @@ body {
   border-color: #CD6A00;
 }
 
+.close-button {
+  background-color: #1A1E18;
+  color: #F4F4F4;
+}
+
 .form-control:focus {
   border-color: #E48F35;
   box-shadow: 0 0 0 0.25rem rgba(228, 143, 53, 0.25);
 }
 
-h3 {
-  text-align: start;
-}
-
-#navbar-brand {
-  background-color: #FFFFFF;
-}
-
-#index {
+#screensaver {
   width: 96dvw;
   height: 85dvh;
   border-radius: 12px;
   background-color: #E48F35;
   background-image: url(./Main_4.jpg);
-  /* background-size: contain;
-  background-repeat: no-repeat; */
   background-size: cover;
-  /* insert vertical image for mobile version */
+  /* TODO: insert vertical image for mobile version */
+}
+
+#navbar-brand {
+  background-color: #FFFFFF;
+}
+#navbar-brand .navbar-toggler {
+  border: none;
 }
 
 #navbar {
@@ -85,8 +87,7 @@ a.category-link:hover {
   color: #323432;
   position: relative;
 }
-
-.card_image {
+.card .card_image {
   max-width: 88dvw;
   width: 360px;
   height: 288px;
@@ -97,19 +98,7 @@ a.category-link:hover {
   background-repeat: no-repeat;
   border-radius: 16px;
 }
-
-@media (max-width: 420px) {
-  .card {
-    height: 100%;
-  }
-  .card p.description {
-    margin-bottom: 7px;
-  }
-  .card .card_image {
-    height: 70dvw;
-  }
-}
-.card_name {
+.card .card_name {
   font-size: 25px;
   text-align: left;
   font-family: "Montserrat";
@@ -135,12 +124,7 @@ a.category-link:hover {
 
 #login {
   border: none;
-  background-color: #fff;
-}
-
-.close-button {
-  background-color: #1a1e18;
-  color: #f4f4f4;
+  background-color: #FFFFFF;
 }
 
 #register_form {
@@ -161,29 +145,36 @@ a.category-link:hover {
   font-size: 11px;
 }
 
+.profile-favourites {
+  margin-left: 13dvw;
+}
+
 .profile {
   min-width: 300px;
-  width: 70dvw;
   margin: auto;
 }
+.profile h3 {
+  margin-left: 13dvw;
+}
 .profile .profile_line {
+  width: 70dvw;
   border-bottom: #323432;
   border-bottom: 1px solid rgba(21, 21, 20, 0.6);
   padding: 22px 0;
-}
-.profile .profile_line .row {
-  align-items: center;
 }
 .profile .profile_line p {
   margin-bottom: 0;
   font-size: 18px;
 }
+.profile .profile_line span {
+  font-size: 14px;
+}
+.profile .profile_line .row {
+  align-items: center;
+}
 .profile .profile_line .col {
   text-align: start;
   padding-left: 10%;
-}
-.profile .profile_line span {
-  font-size: 14px;
 }
 .profile .profile_line .btn {
   width: 220px;
@@ -191,6 +182,14 @@ a.category-link:hover {
   border-radius: 12px;
 }
 
-.navbar-toggler {
-  border: none;
+@media (max-width: 420px) {
+  .card {
+    height: 100%;
+  }
+  .card p.description {
+    margin-bottom: 7px;
+  }
+  .card .card_image {
+    height: 70dvw;
+  }
 }/*# sourceMappingURL=styles.css.map */

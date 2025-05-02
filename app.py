@@ -37,16 +37,13 @@ def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
                 for idx, value in enumerate(row))
 
-# db.row_factory = make_dicts
-
 
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
-# for user in query_db('select * from users'):
-#     print(user['username'], 'has the id', user['user_id'])
+
 
 @app.after_request
 def after_request(response):
@@ -60,7 +57,6 @@ def after_request(response):
 @app.route("/")
 def index():
     # It's working!
-    print(sys.executable)
     cur = get_db().cursor()
     # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
     #             ("Pomnik Adama Mickiewicza", 
@@ -69,28 +65,23 @@ def index():
     #              "Miejsce historyczne", 
     #              "./static/mickievicz.jpg")
     # )
-    # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
-    #             ("Kościół sw. Jozefa", 
-    #              "Stare Podgórze, Rynek Podgórski", 
-    #              4.9, 
-    #              "Miejsce historyczne", 
-    #              "./static/Jozefa54.jpg")
-    # )
     # cur.execute("UPDATE sights SET photos = ? WHERE sight_id = 2", ('./static/brama_florianska.jpg',))
     sights = cur.execute("SELECT * FROM sights").fetchall()
-    # Пример использования
-    # output = "./static/sights/"
     # get_db().commit() # Remember to commit the transaction after executing INSERT.
-    get_db().close()
-    print(sights[0][0])
-    print(sights[0][5])
+    # get_db().close()
     for sight in sights:
         if sight[0] != 1:
             output = "./static/sights/" + str(sight[0]) + ".jpg"
 
             crop_to_aspect(sight[5], output, 5/4)
-        
-    return render_template("index.html", sights=sights)
+    sights_id = []
+    try:
+        rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
+        for row in rows:
+            sights_id.append(int(row[0]))
+    except:
+        sights_id = [] 
+    return render_template("index.html", sights=sights, favourites=sights_id)
 
 
 @app.route("/login", methods=["POST"])
@@ -137,10 +128,45 @@ def logout():
 @app.route("/profile")
 def profile():
     """Show user profile"""
+    user = query_db("SELECT id, username, email FROM users WHERE id = ?", (session["user_id"],))
+    print(user)
+    if user == []:
+        return apology("Looks like you don't have permission", 400)
 
-    # Redirect user to login form
-    return render_template("profile.html")
+    favourites = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", 
+                 (session["user_id"],))
+    list = []
+    if favourites == []:
+        sights = []
+    else:
+        for favourite in favourites:
+            list.append(int(favourite[0]))
+    sights = query_db("SELECT * FROM sights WHERE sight_id IN (SELECT sight_id FROM favourites WHERE user_id = ?)", 
+             (session["user_id"],))
+    return render_template("profile.html", user=user[0], sights=sights, favourites=list)
 
+
+@app.route("/favourite", methods=["POST"])
+def favourite():
+    """Add location to favourites"""   
+    element = request.form.get("index")
+    rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
+    sights_id = []
+    for row in rows:
+        sights_id.append(int(row[0]))
+    if not rows or not int(element) in sights_id:
+        cur = get_db().cursor()
+        cur.execute("INSERT INTO favourites (user_id, sight_id) VALUES (?, ?)",
+                   (session["user_id"], request.form.get("index")))
+        get_db().commit()
+        get_db().close()
+    else:
+        cur = get_db().cursor()
+        cur.execute("DELETE FROM favourites WHERE user_id = ? AND sight_id = ?",
+                   (session["user_id"], request.form.get("index")))
+        get_db().commit()
+        get_db().close()
+    return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
