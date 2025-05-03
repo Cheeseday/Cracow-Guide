@@ -10,7 +10,7 @@
                     <span>{{ user[2] }}</span>
                 </div>
                 <div class="col-sm-6">
-                    <button class="btn">Change e-mail</button>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#emailChangeModal">Change e-mail</button>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
                     <span>{{ user[1] }}</span>
                 </div>
                 <div class="col-sm-6">
-                    <button class="btn">Change username</button>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#usernameChangeModal">Change username</button>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <button class="btn">Change password</button>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">Change password</button>
                 </div>
             </div>
         </div>
@@ -79,4 +79,87 @@
             </div>
         </div>
     </section>
+
+    <!-- Change email modal -->
+    <div class="modal fade form" id="emailChangeModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="emailModalLabel">Change e-mail</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/changeEmail" method="post">
+                        <div class="mb-3">
+                            <label for="email-change" class="col-form-label pb-1">Enter new e-mail:</label>
+                            <input autocomplete="off" autofocus required type="email" class="form-control" name="email" id="email-change">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email-confirmation" class="col-form-label pb-1">Repeat new e-mail:</label>
+                            <input autocomplete="off" required type="email" class="form-control" name="confirmation" id="email-confirmation">
+                        </div>
+                        <hr class="mt-4 mb-3">
+                        <div class="mb-2 text-end">
+                            <button type="button" class="btn close-button rounded-3" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn rounded-3">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change username modal -->
+    <div class="modal fade form" id="usernameChangeModal" tabindex="-1" aria-labelledby="usernameModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="usernameModalLabel">Change username</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/changeUsername" method="post">
+                        <div class="mb-3">
+                            <label for="username-change" class="col-form-label pb-1">Enter new username:</label>
+                            <input autocomplete="off" autofocus required type="text" class="form-control" name="username" id="username-change">
+                        </div>
+                        <hr class="mt-4 mb-3">
+                        <div class="mb-2 text-end">
+                            <button type="button" class="btn close-button rounded-3" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn rounded-3">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change password modal -->
+    <div class="modal fade form" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="passwordModalLabel">Change password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/change" method="post">
+                        <div class="mb-3">
+                            <label for="password-change" class="col-form-label pb-1">Enter new password:</label>
+                            <input autocomplete="off" autofocus required type="password" class="form-control" name="password" id="password-change">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password-confirmation" class="col-form-label pb-1">Repeat new password:</label>
+                            <input autocomplete="off" required type="password" class="form-control" name="confirmation" id="password-confirmation">
+                        </div>
+                        <hr class="mt-4 mb-3">
+                        <div class="mb-2 text-end">
+                            <button type="button" class="btn close-button rounded-3" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn rounded-3">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

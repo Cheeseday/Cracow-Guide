@@ -22,8 +22,14 @@ h3 {
 }
 
 .close-button {
+  border: none;
   background-color: #1A1E18;
   color: #F4F4F4;
+}
+
+.close-button:hover {
+  background-color: rgba(26, 30, 24, 0.65);
+  transition: background-color 0.25s ease-in-out;
 }
 
 .form-control:focus {
@@ -55,6 +61,7 @@ h3 {
 #navbar .nav-link {
   font-size: 18px;
   color: #1A1E18;
+  cursor: pointer;
 }
 #navbar .navbar-brand {
   font-size: 24px;
@@ -130,17 +137,21 @@ a.category-link:hover {
 #register_form {
   width: 440px;
   max-width: 90%;
-  text-align: start;
   border-radius: 16px;
+  border-color: #E48F35 !important;
 }
-#register_form a {
+
+.form {
+  text-align: start;
+}
+.form a {
   color: #E48F35;
+  cursor: pointer;
 }
-#register_form a:hover {
+.form a:hover {
   color: #CD6A00;
   transition: color 0.25s ease-in-out;
 }
-
 #passwordHelpBlock {
   font-size: 11px;
 }

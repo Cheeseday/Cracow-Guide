@@ -24,6 +24,7 @@ h3 {
     border-color: $button-color;
     color: $base-color;
 }
+
 .btn:hover {
     color: $base-color;
     background-color: $btn-hover-color;
@@ -31,8 +32,17 @@ h3 {
 }
 
 .close-button {
+    border: none;
     background-color: $text-color;
+    // border-color: $text-color;
     color: $bg-color;
+}
+
+.close-button:hover {
+    // background-color: $btn-hover-color;
+    background-color: rgba($text-color, 0.65);
+
+    transition: background-color 0.25s ease-in-out;
 }
 
 .form-control:focus {
@@ -65,6 +75,7 @@ h3 {
     .nav-link {
         font-size: 18px;
         color: $text-color;
+        cursor: pointer;
     }
 
     .navbar-brand {
@@ -142,7 +153,6 @@ a.category-link:hover {
     }
 }
 
-
 //Log in and registration 
 #login {
     border: none;
@@ -152,16 +162,24 @@ a.category-link:hover {
 #register_form {
     width: 440px;
     max-width: 90%;
-    text-align: start;
     border-radius: 16px;
+    border-color: $button-color !important;
+}
+
+.form {
+    text-align: start;
 
     a {
         color: $button-color;
+        cursor: pointer;
     }
 
     a:hover {
         color: $btn-hover-color;
         transition: color 0.25s ease-in-out;
+    }
+    
+    .col-form-label {
     }
 }
 

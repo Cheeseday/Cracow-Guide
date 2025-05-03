@@ -233,10 +233,10 @@ def change():
         return apology("must provide new password", 400)
     # Check if password contains at least one uppercase letter, one lowercase letter, one digit, and one special character
     elif not re.match(pattern, request.form.get("password"), re.VERBOSE):
-        return apology("password must be contain at least 8 symbols and among them: one uppercase letter, one lowercase letter, one digit, and one special character", 403)
+        return apology("password must be contain at least 8 symbols and among them: one uppercase letter, one lowercase letter, one digit, and one special character", 400)
     # Ensure confirmation was submitted
     elif not request.form.get("confirmation"):
-        return apology("must repeat password", 400)
+        return apology("must repeat new password", 400)
     # Ensure password and confirmation match
     elif request.form.get("password") != request.form.get("confirmation"):
         return apology("passwords must match", 400)
@@ -245,9 +245,70 @@ def change():
     hash = generate_password_hash(request.form.get("password"))
 
     # Update password in db
-    db.execute(
-        "UPDATE users SET hash = ? WHERE id = ?",
-        hash,
-        session["user_id"],
+    cur = get_db().cursor()
+    cur.execute("UPDATE users SET hash = ? WHERE id = ?",
+                (hash,
+                session["user_id"],)
     )
+    get_db().commit() # Remember to commit the transaction after executing INSERT.
+    get_db().close()
+    return redirect("/")
+
+
+@app.route("/changeUsername", methods=["POST"])
+@login_required
+def changeUsername():
+    """Change username"""
+
+    # Ensure username was correct
+    if not request.form.get("username"):
+        return apology("must provide username", 400)
+    elif not is_valid_username(request.form.get("username")):
+        return apology("username must contain only latin letters, numbers, or '_' and be at least 4 symbols", 400)
+
+    # Ensure username is unique
+    rows = query_db("SELECT username FROM users WHERE username = ?", (request.form.get("username"),))
+    if len(rows) != 0:
+        return apology("username already taken", 400)
+
+    # Update username in db
+    cur = get_db().cursor()
+    cur.execute("UPDATE users SET username = ? WHERE id = ?",
+                (request.form.get("username"), 
+                 session["user_id"],)
+    )
+    get_db().commit() # Remember to commit the transaction after executing INSERT.
+    get_db().close()
+    return redirect("/")
+
+
+@app.route("/changeEmail", methods=["POST"])
+@login_required
+def changeEmail():
+    """Change email"""
+
+    print(request.form.get("email"), request.form.get("confirmation"))
+    # Ensure email was correct
+    if not is_valid_email(request.form.get("email")):
+        return apology("email was invalid", 400)
+    # Ensure confirmation was submitted
+    elif not request.form.get("confirmation"):
+        return apology("must repeat new email", 400)
+    # Ensure email and confirmation match
+    elif request.form.get("email") != request.form.get("confirmation"):
+        return apology("emails must match", 400)
+    
+    # Ensure email is unique
+    emails = query_db("SELECT email FROM users WHERE email = ?", (request.form.get("email"),))
+    if len(emails) != 0:
+        return apology("email already taken", 400)
+
+    # Update username in db
+    cur = get_db().cursor()
+    cur.execute("UPDATE users SET email = ? WHERE id = ?",
+                (request.form.get("email"),
+                 session["user_id"],)
+    )
+    get_db().commit() # Remember to commit the transaction after executing INSERT.
+    get_db().close()
     return redirect("/")
