@@ -20,7 +20,7 @@
     </head>
 
     <body>
-        <nav id="navbar-brand" class="navbar navbar-expand-md navbar-light sticky-top">
+        <nav id="navbar-brand" class="navbar navbar-expand-md navbar-light sticky-top py-2">
             <div class="container-fluid p-0">
                 <a class="navbar-brand" href="/">Kraków Guide</a>
                 <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,12 +80,41 @@
             </header>
         {% endif %} -->
 
-        <main class="container-fluid p-0 m-auto text-center">
+        <main class="container-fluid m-auto text-center">
             {% block main %}{% endblock %}
         </main>
 
-        <footer class="mb-5">
-
+        <footer class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-lg-4 col-sm-6 title-footer ps-5 pt-4">
+                    <a href="/">Kraków<br>Guide</a>
+                    <!-- <a href="/">Guide</a> -->
+                    <br>
+                    <span>Designed and built with all the love in the world for all Kraków residents, visitors and lovers.</span>
+                </div>
+                <div class="col-12 col-lg-4 col-sm-6 pt-3 categories-footer">
+                    <p>Categories</p>
+                    <a href="{{ url_for('category', name='all-places') }}" class="category-link">All places</a><br>
+                    <a href="{{ url_for('category', name='points-of-interest') }}" class="category-link">Points of Interest</a><br>
+                    <a href="{{ url_for('category', name='historic-sites') }}" class="category-link">Historic Sites</a><br>
+                    <a href="{{ url_for('category', name='museums') }}" class="category-link">Museums</a><br>
+                    <a href="{{ url_for('category', name='parks') }}" class="category-link">Parks</a><br>
+                    <a href="{{ url_for('category', name='hotels') }}" class="category-link">Hotels</a><br>
+                    <a href="{{ url_for('category', name='restaurants') }}" class="category-link">Restaurants</a>
+                </div>
+                <div class="col-12 col-lg-4 pt-3 about-footer">
+                    <p>Links</p>
+                    {% if session["user_id"] %}
+                    <a class="nav-link m-0" href="/profile">Profile</a><br>
+                    {% endif %}
+                    <a class="nav-link m-0" href="#">Guides</a><br>
+                    <a class="nav-link m-0" href="#">Sights</a><br>
+                    <a class="nav-link m-0" id="disabled" href="#">Map</a><br>
+                    {% if not session["user_id"] %}
+                    <a class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</a>
+                    {% endif %}
+                </div>
+            </div>
         </footer>
     </body>
 </html>

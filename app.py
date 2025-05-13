@@ -5,8 +5,9 @@ import sys
 
 from datetime import datetime, timezone
 from flask_session import Session
-from flask import Flask, flash, redirect, render_template, request, session, g
+from flask import Flask, flash, redirect, render_template, url_for, request, session, g
 from werkzeug.security import check_password_hash, generate_password_hash
+from random import shuffle
 
 from helpers import apology, login_required, is_valid_email, is_valid_username, crop_to_aspect
 
@@ -56,31 +57,40 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    # It's working!
     cur = get_db().cursor()
     # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
-    #             ("Pomnik Adama Mickiewicza", 
-    #              "Stare Miasto, Rynek Główny", 
+    #             ("Wyndham Grand", 
+    #              "Stare Miasto, Floriańska 28", 
     #              4.7, 
-    #              "Miejsce historyczne", 
-    #              "./static/mickievicz.jpg")
+    #              "Hotels", 
+    #              "./static/wyndham.jpg")
     # )
-    # cur.execute("UPDATE sights SET photos = ? WHERE sight_id = 2", ('./static/brama_florianska.jpg',))
+    # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
+    #             ("Muzeum Lotnictwa Polskiego", 
+    #              "Czyżyny, Jana Pawłą II 39", 
+    #              4.7, 
+    #              "Museums", 
+    #              "./static/muzeumlotnictwakrakow.jpg")
+    # )
+    # cur.execute("UPDATE sights SET photos = ? WHERE sight_id = 6", ('./static/andrzej.jpg',))
     sights = cur.execute("SELECT * FROM sights").fetchall()
     # get_db().commit() # Remember to commit the transaction after executing INSERT.
-    # get_db().close()
     for sight in sights:
-        if sight[0] != 1:
+    # get_db(). close()
+        if os.path.isfile('./static/sights/' + str(sight[0]) + '.jpg'):
+            continue
+        if sight[0]:
             output = "./static/sights/" + str(sight[0]) + ".jpg"
 
             crop_to_aspect(sight[5], output, 5/4)
+
     sights_id = []
     try:
         rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
         for row in rows:
             sights_id.append(int(row[0]))
     except:
-        sights_id = [] 
+        sights_id = []
     return render_template("index.html", sights=sights, favourites=sights_id)
 
 
@@ -115,6 +125,7 @@ def login():
     
 
 @app.route("/logout")
+@login_required
 def logout():
     """Log user out"""
 
@@ -126,10 +137,10 @@ def logout():
 
 
 @app.route("/profile")
+@login_required
 def profile():
     """Show user profile"""
     user = query_db("SELECT id, username, email FROM users WHERE id = ?", (session["user_id"],))
-    print(user)
     if user == []:
         return apology("Looks like you don't have permission", 400)
 
@@ -148,25 +159,26 @@ def profile():
 
 @app.route("/favourite", methods=["POST"])
 def favourite():
-    """Add location to favourites"""   
+    """Add location to favourites"""  
+    try:
+        session["user_id"]
+    except:
+        return redirect("/register")
     element = request.form.get("index")
     rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
     sights_id = []
     for row in rows:
         sights_id.append(int(row[0]))
+    cur = get_db().cursor()
     if not rows or not int(element) in sights_id:
-        cur = get_db().cursor()
         cur.execute("INSERT INTO favourites (user_id, sight_id) VALUES (?, ?)",
                    (session["user_id"], request.form.get("index")))
-        get_db().commit()
-        get_db().close()
     else:
-        cur = get_db().cursor()
         cur.execute("DELETE FROM favourites WHERE user_id = ? AND sight_id = ?",
                    (session["user_id"], request.form.get("index")))
-        get_db().commit()
-        get_db().close()
-    return redirect("/")
+    get_db().commit()
+    get_db().close()
+    return redirect(request.referrer)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -215,8 +227,10 @@ def register():
              hash,
             )
         )
-        get_db().commit() # Remember to commit the transaction after executing INSERT.
+        username = request.form.get("username")
+        get_db().commit()
         get_db().close()
+        # token = generate_token(request.form.get("email"))
         return redirect("/")
     else:
         return render_template("register.html")
@@ -286,8 +300,6 @@ def changeUsername():
 @login_required
 def changeEmail():
     """Change email"""
-
-    print(request.form.get("email"), request.form.get("confirmation"))
     # Ensure email was correct
     if not is_valid_email(request.form.get("email")):
         return apology("email was invalid", 400)
@@ -312,3 +324,45 @@ def changeEmail():
     get_db().commit() # Remember to commit the transaction after executing INSERT.
     get_db().close()
     return redirect("/")
+
+
+@app.route("/card", methods=["POST"])
+def card():
+    """Show card page"""
+    place = query_db("SELECT * FROM sights WHERE sight_id = ?", (request.form.get("sight"),))[0]
+    if place[0] != 1:
+            output = "./static/sights/" + str(place[0]) + "A.jpg"
+            crop_to_aspect(place[5], output, 16/9)
+    sights = query_db("SELECT * FROM sights WHERE mark > 4.7")
+    shuffle(sights)
+
+    sights_id = []
+    try:
+        rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
+        for row in rows:
+            sights_id.append(int(row[0]))
+    except:
+        sights_id = [] 
+    return render_template("article.html", place=place, sights=sights, favourites=sights_id)
+
+
+@app.route("/category/<name>")
+def category(name):
+    """Show choosed category"""
+    sights_id = []
+    try:
+        rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
+        for row in rows:
+            sights_id.append(int(row[0]))
+    except:
+        sights_id = [] 
+
+    if name == 'all-places':
+        fullname = 'All places'
+        sights = query_db("SELECT * FROM sights")
+        return render_template("category.html", sights=sights, name=fullname, favourites=sights_id)
+    
+    fullname = query_db("SELECT fullname FROM categories WHERE name = ?", (name,))[0][0]
+    sights = query_db("SELECT * FROM sights WHERE categories LIKE ?", ('%' + fullname + '%',))
+    return render_template("category.html", sights=sights, name=fullname, favourites=sights_id)
+

@@ -1,26 +1,23 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<div id="screensaver"></div>
 
 <div class="categories p-3" id="places">
-    <a href="{{ url_for('category', name='all-places') }}" class="category-link px-4"><b>All places</b></a>
-    <a href="{{ url_for('category', name='points-of-interest') }}" class="category-link px-4">Points of interest</a>
-    <a href="{{ url_for('category', name='historic-sites') }}" class="category-link px-4">Historic Sites</a>
-    <a href="{{ url_for('category', name='museums') }}" class="category-link px-4">Museums</a>
-    <a href="{{ url_for('category', name='parks') }}" class="category-link px-4">Parks</a>
-    <a href="{{ url_for('category', name='hotels') }}" class="category-link px-4">Hotels</a>
-    <a href="{{ url_for('category', name='restaurants') }}" class="category-link px-4">Restaurants</a>
+    <a href="{{ url_for('category', name='all-places') }}" class="category-link px-4 all-places">All places</a>
+    <a href="{{ url_for('category', name='points-of-interest') }}" class="category-link px-4 points-of-interest">Points of Interest</a>
+    <a href="{{ url_for('category', name='historic-sites') }}" class="category-link px-4 historic-sites">Historic Sites</a>
+    <a href="{{ url_for('category', name='museums') }}" class="category-link px-4 museums">Museums</a>
+    <a href="{{ url_for('category', name='parks') }}" class="category-link px-4 parks">Parks</a>
+    <a href="{{ url_for('category', name='hotels') }}" class="category-link px-4 hotels">Hotels</a>
+    <a href="{{ url_for('category', name='restaurants') }}" class="category-link px-4 restaurants">Restaurants</a>
 </div>
-<div>
-    <h3 class="">
-        All places
-    </h3>
+<div >
+    <h3 id="category-title">{{ name }}</h3>
     <div class="container-xxl">
         <div class="row row-cols-auto justify-content-center">
-            {% for sight in sights%}
+            {% for sight in sights %}
             <div class="card p-0 m-4">
-                <img loading="lazy" class="card_image" src="./static/sights/{{ sight[0] }}.jpg" alt="{{ sight[1] }}">
+                <div class="card_image" style="background-image: url('../static/sights/{{ sight[0] }}.jpg');"></div>
                 <div class="card_name ps-2 pt-2">{{ sight[1] }}</div>
                 <form class="card_form" action="/card" method="post">
                     <input name="sight" value="{{ sight[0] }}" hidden />

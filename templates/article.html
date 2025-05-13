@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="categories p-2" id="places">
+    <a href="{{ url_for('category', name='all-places') }}" class="category-link px-4"><b>All places</b></a>
+    <a href="{{ url_for('category', name='points-of-interest') }}" class="category-link px-4">Points of interest</a>
+    <a href="{{ url_for('category', name='historic-sites') }}" class="category-link px-4">Historic Sites</a>
+    <a href="{{ url_for('category', name='museums') }}" class="category-link px-4">Museums</a>
+    <a href="{{ url_for('category', name='parks') }}" class="category-link px-4">Parks</a>
+    <a href="{{ url_for('category', name='hotels') }}" class="category-link px-4">Hotels</a>
+    <a href="{{ url_for('category', name='restaurants') }}" class="category-link px-4">Restaurants</a>
+</div>
+<div class="container-xxl">
+    <div class="row">
+        <div id="place-image" class="col-12 col-sm-6 col-md-8 mt-3 mb-4 p-0" style="background-image: url('./static/sights/{{ place[0] }}A.jpg');">
+            <form action="/favourite" method="post">
+                <input name="index" value="{{ place[0] }}" hidden />
+                <button class="stretched-link favourite" type="submit" autocomplete="off">
+                    {{ place[3] }}
+                    {% if place[0] in favourites %}
+                    <i class="fa-solid fa-star favourited"></i>
+                    {% else %}
+                    <i class="fa-solid fa-star"></i>
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="article-name ps-2 pt-2">{{ place[1] }}</div>
+            <p class="description article-description">📍{{ place[2] }}</p>
+        </div>
+    </div>
+</div>
+
+<h3 class="">
+    Popular places
+</h3>
+<div class="container-xxl">
+    <div class="row row-cols-auto justify-content-center">
+        {% for sight in sights%}
+        <div class="card p-0 m-4">
+            <div class="card_image" id="page-image" style="background-image: url('./static/sights/{{ sight[0] }}.jpg');"></div>
+            <div class="card_name ps-2 pt-2">{{ sight[1] }}</div>
+            <form class="card_form" action="/card" method="post">
+                <input name="sight" value="{{ sight[0] }}" hidden />
+                <button class="stretched-button stretched-link ps-2" type="submit">{{ sight[4] }}</button>
+            </form>
+            <p class="description">📍{{ sight[2] }}</p>
+            <form action="/favourite" method="post">
+                <input name="index" value="{{ sight[0] }}" hidden />
+                <button class="stretched-link favourite" type="submit" autocomplete="off">
+                    {{ sight[3] }}
+                    {% if sight[0] in favourites %}
+                    <i class="fa-solid fa-star favourited"></i>
+                    {% else %}
+                    <i class="fa-solid fa-star"></i>
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
