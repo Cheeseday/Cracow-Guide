@@ -12,3 +12,11 @@ for (let i = 0; i < stars.length; i++) {
     event.target.classList.remove("favourited")
   });
 }
+
+const title = document.getElementById('category-title');
+const categories = document.getElementById("places");
+for (const child of categories.children) {
+  if(child.innerHTML == title.innerHTML) {
+    child.classList.add('choosed')
+  }
+}

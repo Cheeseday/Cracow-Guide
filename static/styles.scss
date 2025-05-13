@@ -6,13 +6,17 @@ $button-color: #E48F35;
 $hover-color: #E48F35;
 $btn-hover-color: #CD6A00;
 $star-color: #fff700;
+$footer-color: #212529;
 
 
 body {
     font-family: 'Montserrat';
-    padding: 0 1.5dvw;
     background-color: $base-color;
     color: $text-color;
+}
+
+main {
+    padding: 0 1.5dvw;
 }
 
 h3 {
@@ -34,7 +38,6 @@ h3 {
 .close-button {
     border: none;
     background-color: $text-color;
-    // border-color: $text-color;
     color: $bg-color;
 }
 
@@ -51,16 +54,17 @@ h3 {
 }
 
 #screensaver {
-    width: 96dvw;
+    width: 97dvw;
     height: 85dvh;
     border-radius: 12px;
     background-color: $button-color;
-    background-image: url(./Main_4.jpg);
+    background-image: url(./Main1.jpg);
     background-size: cover;
     /* TODO: insert vertical image for mobile version */
 }
 
 #navbar-brand {
+    padding: 0 1.5dvw;
     background-color: $base-color;
 
     .navbar-toggler {
@@ -93,8 +97,13 @@ h3 {
     color: $text-color;
 }
 
-a.category-link:hover {
+.category-link:hover {
     color: $hover-color;
+    transition: color 0.25s ease-in-out;
+}
+
+.choosed {
+    font-weight: 700;
 }
 
 // Card 
@@ -103,14 +112,24 @@ a.category-link:hover {
     border-radius: 16px;
     font-family: 'Montserrat';
     border: none;
+    color: $text-color;
+    text-align: left;
     background-color: rgba(0, 0, 0, 0.04);
 
     p {
         margin: 0 0 0 10px;
-        text-align: left;
         font-size: 14px;
         color: #323432;
         position: relative;
+        font-weight: 300;
+    }
+
+    .stretched-button {
+        color: $text-color;
+        font-size: 14px;
+        font-weight: 300;
+        border: none;
+        background-color: inherit;
     }
 
     .card_image {
@@ -118,7 +137,6 @@ a.category-link:hover {
         width: 360px;
         height: 288px;
         background-color: inherit;
-        background-image: url(./Jozefa5_4.jpg);
         background-size: cover;
         background-size: contain;
         background-repeat: no-repeat;
@@ -127,7 +145,6 @@ a.category-link:hover {
 
     .card_name {
         font-size: 25px;
-        text-align: left;
         font-family: 'Montserrat';
         font-weight: 300;
     }
@@ -178,9 +195,6 @@ a.category-link:hover {
         color: $btn-hover-color;
         transition: color 0.25s ease-in-out;
     }
-    
-    .col-form-label {
-    }
 }
 
 #passwordHelpBlock {
@@ -228,6 +242,78 @@ a.category-link:hover {
             height: 46px;
             border-radius: 12px;
         }
+    }
+}
+
+//Article
+
+#place-image {
+    position: relative;
+    max-width: 100%;
+    height: 495px;
+    background-color: inherit;
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+
+    .favourite {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 22px;
+    }
+}
+
+.article-name {
+    font-size: 30px;
+    padding-bottom: 15px;
+}
+
+.article-description {
+    font-size: 22px;
+}
+
+//Footer
+footer {
+    background-color: $button-color;
+    padding-bottom: 80px;
+
+    a, a.nav-link, a.category-link {
+        color: $footer-color;
+        text-decoration: none;
+    }
+
+    p {
+        font-weight: 600;
+        font-size: 22px;
+        color: $footer-color;
+        margin-bottom: 5px;
+    }
+
+    span {
+        font-size: 14px;
+    }
+
+    #disabled:hover {
+        font-weight: normal;
+        transition: none;
+        cursor: default;
+    }
+
+    a:hover, a.category-link:hover, a.nav-link:hover {
+        color: $footer-color;
+        font-weight: 600;
+        transition: font-weight 0.25s ease-in-out;
+    }
+}
+
+.title-footer {
+
+    a {
+        display: inline-block;
+        font-size: 32px;
+        text-decoration: none;
     }
 }
 

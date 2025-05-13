@@ -1,8 +1,11 @@
 body {
   font-family: "Montserrat";
-  padding: 0 1.5dvw;
   background-color: #FFFFFF;
   color: #1A1E18;
+}
+
+main {
+  padding: 0 1.5dvw;
 }
 
 h3 {
@@ -38,16 +41,17 @@ h3 {
 }
 
 #screensaver {
-  width: 96dvw;
+  width: 97dvw;
   height: 85dvh;
   border-radius: 12px;
   background-color: #E48F35;
-  background-image: url(./Main_4.jpg);
+  background-image: url(./Main1.jpg);
   background-size: cover;
   /* TODO: insert vertical image for mobile version */
 }
 
 #navbar-brand {
+  padding: 0 1.5dvw;
   background-color: #FFFFFF;
 }
 #navbar-brand .navbar-toggler {
@@ -76,8 +80,13 @@ h3 {
   color: #1A1E18;
 }
 
-a.category-link:hover {
+.category-link:hover {
   color: #E48F35;
+  transition: color 0.25s ease-in-out;
+}
+
+.choosed {
+  font-weight: 700;
 }
 
 .card {
@@ -85,21 +94,29 @@ a.category-link:hover {
   border-radius: 16px;
   font-family: "Montserrat";
   border: none;
+  color: #1A1E18;
+  text-align: left;
   background-color: rgba(0, 0, 0, 0.04);
 }
 .card p {
   margin: 0 0 0 10px;
-  text-align: left;
   font-size: 14px;
   color: #323432;
   position: relative;
+  font-weight: 300;
+}
+.card .stretched-button {
+  color: #1A1E18;
+  font-size: 14px;
+  font-weight: 300;
+  border: none;
+  background-color: inherit;
 }
 .card .card_image {
   max-width: 88dvw;
   width: 360px;
   height: 288px;
   background-color: inherit;
-  background-image: url(./Jozefa5_4.jpg);
   background-size: cover;
   background-size: contain;
   background-repeat: no-repeat;
@@ -107,7 +124,6 @@ a.category-link:hover {
 }
 .card .card_name {
   font-size: 25px;
-  text-align: left;
   font-family: "Montserrat";
   font-weight: 300;
 }
@@ -152,6 +168,7 @@ a.category-link:hover {
   color: #CD6A00;
   transition: color 0.25s ease-in-out;
 }
+
 #passwordHelpBlock {
   font-size: 11px;
 }
@@ -191,6 +208,66 @@ a.category-link:hover {
   width: 220px;
   height: 46px;
   border-radius: 12px;
+}
+
+#place-image {
+  position: relative;
+  max-width: 100%;
+  height: 495px;
+  background-color: inherit;
+  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+}
+#place-image .favourite {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 22px;
+}
+
+.article-name {
+  font-size: 30px;
+  padding-bottom: 15px;
+}
+
+.article-description {
+  font-size: 22px;
+}
+
+footer {
+  background-color: #E48F35;
+  padding-bottom: 80px;
+}
+footer a, footer a.nav-link, footer a.category-link {
+  color: #212529;
+  text-decoration: none;
+}
+footer p {
+  font-weight: 600;
+  font-size: 22px;
+  color: #212529;
+  margin-bottom: 5px;
+}
+footer span {
+  font-size: 14px;
+}
+footer #disabled:hover {
+  font-weight: normal;
+  transition: none;
+  cursor: default;
+}
+footer a:hover, footer a.category-link:hover, footer a.nav-link:hover {
+  color: #212529;
+  font-weight: 600;
+  transition: font-weight 0.25s ease-in-out;
+}
+
+.title-footer a {
+  display: inline-block;
+  font-size: 32px;
+  text-decoration: none;
 }
 
 @media (max-width: 420px) {
