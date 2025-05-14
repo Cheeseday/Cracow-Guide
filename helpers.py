@@ -44,6 +44,7 @@ def login_required(f):
 
     return decorated_function
 
+
 def is_valid_email(email: str) -> bool:
     email_regex = re.compile(
         r"^(?P<local>[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)"
@@ -56,7 +57,6 @@ def is_valid_email(email: str) -> bool:
 
 def is_valid_username(s: str) -> bool:
     return bool(re.fullmatch(r'[A-Za-z0-9_]{4,}', s))
-
 
 
 def crop_to_aspect(image_path, output_path, target_ratio):

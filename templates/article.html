@@ -2,13 +2,13 @@
 
 {% block main %}
 <div class="categories p-2" id="places">
-    <a href="{{ url_for('category', name='all-places') }}" class="category-link px-4"><b>All places</b></a>
-    <a href="{{ url_for('category', name='points-of-interest') }}" class="category-link px-4">Points of interest</a>
-    <a href="{{ url_for('category', name='historic-sites') }}" class="category-link px-4">Historic Sites</a>
-    <a href="{{ url_for('category', name='museums') }}" class="category-link px-4">Museums</a>
-    <a href="{{ url_for('category', name='parks') }}" class="category-link px-4">Parks</a>
-    <a href="{{ url_for('category', name='hotels') }}" class="category-link px-4">Hotels</a>
-    <a href="{{ url_for('category', name='restaurants') }}" class="category-link px-4">Restaurants</a>
+    <a href="{{ url_for('category', name='all-places') }}" class="category-link px-sm-1 px-md-2 px-lg-3 px-xl-4"><b>All places</b></a>
+    <a href="{{ url_for('category', name='points-of-interest') }}" class="category-link px-sm-1 px-md-2 px-lg-3 px-xl-4">Points of interest</a>
+    <a href="{{ url_for('category', name='historic-sites') }}" class="category-link px-sm-1 px-md-2 px-lg-3 px-xl-4">Historic Sites</a>
+    <a href="{{ url_for('category', name='museums') }}" class="category-link px-sm-1 px-md-2 px-lg-3 px-xl-4">Museums</a>
+    <a href="{{ url_for('category', name='parks') }}" class="category-link px-sm-1 px-md-2 px-lg-3 px-xl-4">Parks</a>
+    <a href="{{ url_for('category', name='hotels') }}" class="category-link px-sm-1 px-md-2 px-lg-3 px-xl-4">Hotels</a>
+    <a href="{{ url_for('category', name='restaurants') }}" class="category-link px-sm-1 px-md-2 px-lg-3 px-xl-4">Restaurants</a>
 </div>
 <div class="container-xxl">
     <div class="row">
@@ -27,14 +27,13 @@
         </div>
         <div class="col-12 col-sm-6 col-md-4">
             <div class="article-name ps-2 pt-2">{{ place[1] }}</div>
-            <p class="description article-description">📍{{ place[2] }}</p>
+            <p class="location article-location">📍{{ place[2] }}</p>
+            <p class="description">{{ place[6] }}</p>
         </div>
     </div>
 </div>
 
-<h3 class="">
-    Popular places
-</h3>
+<h3>Popular places</h3>
 <div class="container-xxl">
     <div class="row row-cols-auto justify-content-center">
         {% for sight in sights%}
@@ -45,7 +44,7 @@
                 <input name="sight" value="{{ sight[0] }}" hidden />
                 <button class="stretched-button stretched-link ps-2" type="submit">{{ sight[4] }}</button>
             </form>
-            <p class="description">📍{{ sight[2] }}</p>
+            <p class="location">📍{{ sight[2] }}</p>
             <form action="/favourite" method="post">
                 <input name="index" value="{{ sight[0] }}" hidden />
                 <button class="stretched-link favourite" type="submit" autocomplete="off">

@@ -9,7 +9,7 @@
                     <p>E-mail:</p>
                     <span>{{ user[2] }}</span>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 mt-3 mt-md-0">
                     <button class="btn" data-bs-toggle="modal" data-bs-target="#emailChangeModal">Change e-mail</button>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                     <p>Username:</p>
                     <span>{{ user[1] }}</span>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 mt-3 mt-md-0">
                     <button class="btn" data-bs-toggle="modal" data-bs-target="#usernameChangeModal">Change username</button>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                         <span>.............</span>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 mt-3 mt-md-0">
                     <button class="btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">Change password</button>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <div class="col-sm-6 col">
                     <p>Log out from profile</p>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 mt-3 mt-md-0">
                     <form action="/logout" method="get">
                         <button class="btn" type="submit" autocomplete="off">Log out</button>
                     </form>
@@ -65,10 +65,10 @@
                         <input name="sight" value="{{ sight[0] }}" hidden />
                         <button class="stretched-button stretched-link ps-2" type="submit">{{ sight[4] }}</button>
                     </form>
-                    <p class="description">{{ sight[2] }}</p>
+                    <p class="location">{{ sight[2] }}</p>
                     <form action="/favourite" method="post">
                         <input name="index" value="{{ sight[0] }}" hidden />
-                        <button class="favourite" type="submit" autocomplete="off" >
+                        <button class="stretched-link favourite" type="submit" autocomplete="off" >
                             {{ sight[3] }}
                             {% if sight[0] in favourites %}
                             <i class="fa-solid fa-star favourited"></i>

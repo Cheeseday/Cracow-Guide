@@ -1,11 +1,9 @@
 import os
 import re
 import sqlite3
-import sys
 
-from datetime import datetime, timezone
 from flask_session import Session
-from flask import Flask, flash, redirect, render_template, url_for, request, session, g
+from flask import Flask, flash, redirect, render_template, request, session, g
 from werkzeug.security import check_password_hash, generate_password_hash
 from random import shuffle
 
@@ -58,32 +56,13 @@ def after_request(response):
 @app.route("/")
 def index():
     cur = get_db().cursor()
-    # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
-    #             ("Wyndham Grand", 
-    #              "Stare Miasto, Floriańska 28", 
-    #              4.7, 
-    #              "Hotels", 
-    #              "./static/wyndham.jpg")
-    # )
-    # cur.execute("INSERT INTO sights (name, address, mark, categories, photos) VALUES (?, ?, ?, ?, ?)",
-    #             ("Muzeum Lotnictwa Polskiego", 
-    #              "Czyżyny, Jana Pawłą II 39", 
-    #              4.7, 
-    #              "Museums", 
-    #              "./static/muzeumlotnictwakrakow.jpg")
-    # )
-    # cur.execute("UPDATE sights SET photos = ? WHERE sight_id = 6", ('./static/andrzej.jpg',))
     sights = cur.execute("SELECT * FROM sights").fetchall()
-    # get_db().commit() # Remember to commit the transaction after executing INSERT.
     for sight in sights:
-    # get_db(). close()
         if os.path.isfile('./static/sights/' + str(sight[0]) + '.jpg'):
             continue
         if sight[0]:
             output = "./static/sights/" + str(sight[0]) + ".jpg"
-
             crop_to_aspect(sight[5], output, 5/4)
-
     sights_id = []
     try:
         rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
@@ -91,6 +70,7 @@ def index():
             sights_id.append(int(row[0]))
     except:
         sights_id = []
+    get_db().close()
     return render_template("index.html", sights=sights, favourites=sights_id)
 
 
@@ -101,27 +81,25 @@ def login():
     # Forget any user_id
     session.clear()
 
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-        # Ensure username was submitted
-        if not request.form.get("username"):
-            return apology("must provide username", 400)
-        # Ensure password was submitted
-        elif not request.form.get("password"):
-            return apology("must provide password", 400)
+    # Ensure username was submitted
+    if not request.form.get("username"):
+        return apology("must provide username", 400)
+    # Ensure password was submitted
+    elif not request.form.get("password"):
+        return apology("must provide password", 400)
 
-        # Query database for username
-        rows = query_db("SELECT * FROM users WHERE username = ?", (request.form.get("username"),))
-        # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(
-            rows[0][3], request.form.get("password")
-        ):
-            return apology("invalid username and/or password", 400)
+    # Query database for username
+    rows = query_db("SELECT * FROM users WHERE username = ?", (request.form.get("username"),))
+    # Ensure username exists and password is correct
+    if len(rows) != 1 or not check_password_hash(
+        rows[0][3], request.form.get("password")
+    ):
+        return apology("invalid username and/or password", 400)
 
-        # Remember which user has logged in
-        session["user_id"] = rows[0][0]
-        # Redirect user to home page
-        return redirect("/")
+    # Remember which user has logged in
+    session["user_id"] = rows[0][0]
+    # Redirect user to home page
+    return redirect("/")
     
 
 @app.route("/logout")
@@ -180,6 +158,7 @@ def favourite():
     get_db().close()
     return redirect(request.referrer)
 
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
@@ -227,10 +206,8 @@ def register():
              hash,
             )
         )
-        username = request.form.get("username")
         get_db().commit()
         get_db().close()
-        # token = generate_token(request.form.get("email"))
         return redirect("/")
     else:
         return render_template("register.html")
@@ -264,7 +241,7 @@ def change():
                 (hash,
                 session["user_id"],)
     )
-    get_db().commit() # Remember to commit the transaction after executing INSERT.
+    get_db().commit()
     get_db().close()
     return redirect("/")
 
@@ -291,7 +268,7 @@ def changeUsername():
                 (request.form.get("username"), 
                  session["user_id"],)
     )
-    get_db().commit() # Remember to commit the transaction after executing INSERT.
+    get_db().commit()
     get_db().close()
     return redirect("/")
 
@@ -321,7 +298,7 @@ def changeEmail():
                 (request.form.get("email"),
                  session["user_id"],)
     )
-    get_db().commit() # Remember to commit the transaction after executing INSERT.
+    get_db().commit()
     get_db().close()
     return redirect("/")
 
@@ -335,7 +312,6 @@ def card():
             crop_to_aspect(place[5], output, 16/9)
     sights = query_db("SELECT * FROM sights WHERE mark > 4.7")
     shuffle(sights)
-
     sights_id = []
     try:
         rows = query_db("SELECT sight_id FROM favourites WHERE user_id = ?", (session["user_id"],))
