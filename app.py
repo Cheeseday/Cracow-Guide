@@ -303,10 +303,10 @@ def changeEmail():
     return redirect("/")
 
 
-@app.route("/card", methods=["POST"])
-def card():
+@app.route("/card/<name>")
+def card(name):
     """Show card page"""
-    place = query_db("SELECT * FROM sights WHERE sight_id = ?", (request.form.get("sight"),))[0]
+    place = query_db("SELECT * FROM sights WHERE sight_id = ?", (name,))[0]
     if place[0] != 1:
             output = "./static/sights/" + str(place[0]) + "A.jpg"
             crop_to_aspect(place[5], output, 16/9)
@@ -320,7 +320,6 @@ def card():
     except:
         sights_id = [] 
     return render_template("article.html", place=place, sights=sights, favourites=sights_id)
-
 
 @app.route("/category/<name>")
 def category(name):

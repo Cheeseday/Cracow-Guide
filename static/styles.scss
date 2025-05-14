@@ -127,9 +127,10 @@ h3 {
     .stretched-button {
         font-size: 14px;
         font-weight: 300;
+        text-decoration: none;
         color: $text-color;
-        background-color: inherit;
         border: none;
+
     }
 
     .card_image {

@@ -19,10 +19,7 @@
             <div class="card p-0 m-4">
                 <div class="card_image" style="background-image: url('../static/sights/{{ sight[0] }}.jpg');"></div>
                 <div class="card_name ps-2 pt-2">{{ sight[1] }}</div>
-                <form class="card_form" action="/card" method="post">
-                    <input name="sight" value="{{ sight[0] }}" hidden />
-                    <button class="stretched-button stretched-link ps-2" type="submit">{{ sight[4] }}</button>
-                </form>
+                <a href="/card/{{ sight[0] }}" class="stretched-button stretched-link ps-2" type="submit">{{ sight[4] }}</a>
                 <p class="location">📍{{ sight[2] }}</p>
                 <form action="/favourite" method="post">
                     <input name="index" value="{{ sight[0] }}" hidden />
