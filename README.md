@@ -2,7 +2,6 @@
 #### Video Demo: https://www.youtube.com/watch?v=LYma4TBgsdo
 #### Description:
 
-
 My project is a website written using software tools, such as Python, Flask, SCSS, Jinja, SQLite, Bootstrap and JavaScript a little. The website is designed to provide information about attractions and other places necessary for tourism in Cracow. Site visitors can see a list of locations, read about them, register, and create their own list of locations to visit.
 
 ### Let's move on to the files that take place in the program:
@@ -12,7 +11,7 @@ My project is a website written using software tools, such as Python, Flask, SCS
 **category.html** - just a page with category links and locations in choosed category.\
 **article.html** - it is generate a page for location.\
 **profile.html** - page for profile. There are profile information, opportunities for change email, password, username, log out and user's favourite locations.\
-**register.html**  - page for registration form.\
+**register.html**  - page for registration form.
 
 ***app.py*** - main program file. Contains most of program logic, configurate application. Functions:\
     * def get_db - this function get connection with database.\
@@ -27,7 +26,7 @@ My project is a website written using software tools, such as Python, Flask, SCS
     * def changeUsername - this function change username like algorithm above works.\
     * def changeEmail - this function change email like algorithm above works.\
     * def card - this function get all information about choosed card and render a page for it.\ 
-    * def category - this function show locations in choosed category and render category.html.\
+    * def category - this function show locations in choosed category and render category.html.
 
 **helpers.py** - there are several additional functions:\
     * def apology - render apology message, if something goes wrong\
@@ -42,8 +41,8 @@ CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT
 CREATE TABLE favourites (favourite_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER NOT NULL, sight_id INTEGER NOT NULL);\
 CREATE TABLE categories (category_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, fullname TEXT NOT NULL);\
 CREATE UNIQUE INDEX username ON users (username);\
-CREATE UNIQUE INDEX email ON users (email);\
+CREATE UNIQUE INDEX email ON users (email);
 
 **styles.scss** - styles of project, including media queries. A lot of styles provide by Bootstrap, so a lot of styles are in .html files.\ 
-**index.js** - a little file, that helps to work modal window perfectly, add class "favourited" for needable card and highlight choosed category on category page\
+**index.js** - a little file, that helps to work modal window perfectly, add class "favourited" for needable card and highlight choosed category on category page.\
 and **a bunch of location's pictures** - just a pictures for location's cards and profiles.

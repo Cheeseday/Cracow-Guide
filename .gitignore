@@ -9,3 +9,4 @@ htmlcov/
 .tox/
 docs/_build/
 flask_session
+flask_session.zip

@@ -80,4 +80,6 @@ def crop_to_aspect(image_path, output_path, target_ratio):
 
     except IOError:
         print("An error occurred while trying to open the image.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
